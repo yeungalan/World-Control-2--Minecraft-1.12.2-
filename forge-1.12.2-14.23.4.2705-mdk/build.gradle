@@ -1,0 +1,125 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+def BUILD_NUMBER = System.getenv("BUILD_NUMBER") ?: "0"
+
+def VERSION = "1.0"
+
+version = VERSION+"."+BUILD_NUMBER
+group = "worldcontrolteam.worldcontrol"
+archivesBaseName = "WorldControl"
+
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
+
+repositories {
+    maven { url "http://maven.amadornes.com/" }
+    maven {
+        name = "Progwml6 maven"
+        url = "http://dvs1.progwml6.com/files/maven"
+    }
+    maven {url "http://tehnut.info/maven"}
+    maven {
+        name = "tesla"
+        url 'https://maven.mcmoddev.com/'
+    }
+    maven {
+        name = "ic2"
+        url = "http://maven.ic2.player.to"
+    }
+}
+
+
+minecraft {
+    version = "1.12.2-14.23.1.2607"
+    runDir = "run"
+
+    mappings = "snapshot_20170919"
+
+    replace "@VERSION@", project.version
+
+    useDepAts=true
+}
+
+dependencies {
+    deobfCompile "MCMultiPart2:MCMultiPart:2.3.0"
+    //deobfCompile "mcp.mobius.waila:Hwyla:1.8.20-B35_1.12"
+    deobfProvided "mezz.jei:jei_1.12.2:4.7.11.102:api"
+    runtime "mezz.jei:jei_1.12.2:4.7.11.102"
+    //compile "net.darkhax.tesla:Tesla-1.12:1.0.61"
+    compile "net.darkhax.tesla:Tesla-1.12.2:1.0.63"
+    deobfCompile 'net.industrial-craft:industrialcraft-2:2.8.85-ex112:dev'
+}
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+task("uploadJars") {
+    description = "uploads JARs"
+    if (System.getenv("local_maven") != null) {
+        apply plugin: 'maven'
+        uploadArchives {
+            repositories {
+                mavenDeployer {
+                    repository(url: "file://" + System.getenv("local_maven"))
+                    pom {
+                        groupId = project.group
+                        version = project.version
+                        artifactId = project.archivesBaseName
+                        project {
+                            name project.archivesBaseName
+                            packaging 'jar'
+                            description 'World Control'
+                            issueManagement {
+                                system 'github'
+                                url 'https://github.com/World-Control-Team/World-Control/issues'
+                            }
+                            developers {
+                                developer {
+                                    id 'TheCodedOne'
+                                    name 'TheCodedOne'
+                                    roles { role 'developer' }
+                                }
+                                developer {
+                                    id 'DMF444'
+                                    name 'DMF444'
+                                    roles { role 'developer' }
+                                }
+                                developer {
+                                    id 'Xbony2'
+                                    name 'Xbony2'
+                                    roles { role 'developer' }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,16 @@
+[
+{
+    "modid": "worldcontrol",
+    "name": "World Control",
+    "description": "The spiritual successor to Nuclear Control 2.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["Xbony2","DMF444","TheCodedOne"],
+    "credits": "Original Nuclear Control authors included Shedar, Nargon, Noosius. Later maintained versions by Xbony2, Zuxelus and DMF444.",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+}
+]

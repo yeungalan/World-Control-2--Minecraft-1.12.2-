@@ -1,2 +1,4 @@
-# World-Control-2--Minecraft-1.12.2-
-World Control 2 Port (Still in alpha version)
+# World Control 2
+this is a port from  https://github.com/World-Control-Team/World-Control
+- Supports : 1.12.2
+- Version : Alpha
